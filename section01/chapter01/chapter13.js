@@ -23,3 +23,7 @@ let funcC = (index) => console.log(index+1);
 repeat(5, (index) => console.log(index+1));
 //repeat(5, (index1, index2)=>console.log(index1*10 + index2))
 //callback(20);
+
+
+
+
