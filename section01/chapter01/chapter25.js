@@ -31,3 +31,14 @@ let _myName = person.name;
 let _myHobby = person.hobby;
 
 console.log(myAge, myName, myHobby, extra);
+
+
+//3. 함수(람다식 = 화살표함수)
+//각 프로퍼티를 변수로 저장하고, 그리고 출력
+function printPerson({name, age, hobby, extra = "default"}) {
+  console.log(`name = ${name+"님"}`);
+  console.log(`age = ${age + 1}`);
+  console.log(`hobby = ${hobby}`);
+  console.log(`extra = ${extra}`);
+}
+printPerson(person);
