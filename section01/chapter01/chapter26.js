@@ -1,5 +1,5 @@
 // 26장. spread 연산자
-/*
+
 let array1 = [1, 2, 3, 4, 5]
 let array2 = [10, ...array1, 20, 30]
 let array3 = array1; // 얕은복사(객체참조 주소를 공유)
@@ -25,7 +25,7 @@ let obj1 = {
   a: 1, 
   b: 2, 
 }; 
-/*
+
 let obj2 = obj1
 console.log(obj2 === obj1); 
 
@@ -50,7 +50,7 @@ function funcB(p1,p2,p3){
 
 const array12 = [1,2,3]
 funcB(...array12);
-*/
+
 
 //rest 매개변수
 const array13 = [11,12,13,14,15,16,17]
