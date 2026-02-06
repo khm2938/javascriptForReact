@@ -1,7 +1,6 @@
 //내장함수(라이브러리) (반복문 => 자기스타일로 변경 반복문)
-//forEach 내장함수(화살표함수)
 
-
+/*
 //*********** 1. forEach ***********
  const array = [1,2,3,4];
 for (let i = 0; i < array.length; i++) {
@@ -17,7 +16,9 @@ array.forEach((value, index, array)=>{
 array.forEach((value)=>{
   console.log(`${value}`)
 });
- 
+*/
+
+
 
 
 //*********** 2. Map ***********
@@ -37,7 +38,7 @@ let _newArray = array.map((value)=> value * 10);
 console.log(_newArray);
 
 
-
+/*
 //*********** 3. filter ***********
 // 기존 배열에서 조건을 만족하는 요소들만 필터링하여 새로운 배열로 반환 
 let array1 = [ 
@@ -92,7 +93,7 @@ console.log(findItem2);
 
 let findIndex = array1.findIndex((value)=> value.hobby === "독서");
 console.log(findIndex);
-***********************************************/
+
 
 
 //**************** 5. slice(start, end) **************** 
@@ -134,6 +135,7 @@ console.log(arr3) // 문자열 기준으로 정렬
 
 //숫자를 정렬 
 arr3.sort((num1, num2)=> num1 - num2 ); //오름차순
+arr2.sort((num1, num2)=> num2 - num1 ); //내림차순
 console.log(arr3);
 
 //문자 정렬
@@ -147,15 +149,14 @@ let arr6 = arr5.sort().toReversed();
 console.log(arr6);
 
 
-//**************** 8. join **************** 
+//**************** 8. join, split **************** 
 const arr8 = ["김동진","님","안녕하세요","반가워요"]; 
 const joined = arr8.join("=="); 
 console.log(joined); 
 
-
-
-
-
+const array9 = joined.split("==");
+console.log(array9);
+***********************************************/
 
 
 

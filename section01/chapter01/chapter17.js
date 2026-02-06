@@ -22,3 +22,10 @@ console.log(item1, item2);
   
 arrC[0] = "hello"; 
 console.log(arrC);
+
+
+let array2 = new Array();
+array2.push("홍길동");
+array2.push("20");
+console.log(array2);
+console.log(array2.length);
