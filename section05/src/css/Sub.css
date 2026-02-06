@@ -1,0 +1,14 @@
+#login{
+  background-color: antiquewhite;
+  font-weight: 700;
+  color: brown;
+  border-bottom: 2px solid black;
+}
+
+
+#logout{
+  background-color: antiquewhite;
+  font-weight: 700;
+  color: red;
+  border-bottom: 2px solid black;
+}
