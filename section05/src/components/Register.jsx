@@ -1,16 +1,25 @@
 import { useState } from "react";
+import { useRef } from "react";
 //회원가입폼
 // 1. 이름 2. 생년월일 3. 국적 4. 자기소개
 
 const Register = () => {
+  //useState
   const [input, setInput] = useState({
-    name: '이름입력',
+    name: '',
     birth: '',
     national: '',
     bio: ''
   })
 
+  //useRef
+  const countRef = useRef(0);
+  const inputNameRef = useRef();
+  const inputBioRef = useRef();
+  
+  //이벤트정의
   const onChange = (e)=>{
+    countRef.current++;
     setInput({
       ...input, 
       [e.target.name]: e.target.value
@@ -18,6 +27,15 @@ const Register = () => {
   );
   }
 
+  const onsubmit = (e)=>{
+    if(input.name === ""){
+      inputNameRef.current.focus();
+      console.log(inputNameRef);
+    }else if(input.bio === ""){
+      inputBioRef.current.focus();
+      console.log(inputBioRef);
+    }
+  }
   /*
   const onChangeName = (e)=>{
     console.log(e);
@@ -51,7 +69,8 @@ const Register = () => {
     <>
       <div>
         <label htmlFor="name">성명</label>
-        <input value={input.name} type="text" name="name" id="name" onChange={onChange}/>
+        <input value={input.name} ref={inputNameRef}
+         type="text" name="name" id="name" onChange={onChange} placeholder="이름입력" />
       </div>
       <div>
         <label htmlFor="birth">생년월일</label>
@@ -68,7 +87,11 @@ const Register = () => {
       </div>
       <div>
         <label htmlFor="bio">자기소개</label><br />
-        <textarea value={input.bio} name="bio" id="bio" cols="30" row="10" onChange={onChange}></textarea>
+        <textarea value={input.bio} ref={inputBioRef}
+        name="bio" id="bio" cols="30" row="10" onChange={onChange}></textarea>
+      </div>
+      <div>
+        <button type="button" onClick={onsubmit}>제출</button>
       </div>
     </>
   );
