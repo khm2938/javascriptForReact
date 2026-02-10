@@ -1,0 +1,16 @@
+.editor {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr 1fr auto;
+  gap: 10px;
+  align-items: stretch;
+  margin-top: 18px;
+}
+
+.editor button {
+  height: 42px;
+  white-space: nowrap;
+}
+
+.editor input {
+  height: 42px;
+}
