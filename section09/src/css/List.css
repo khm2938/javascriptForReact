@@ -1,0 +1,90 @@
+.list-count {
+  color: var(--muted);
+  margin: 6px 0 14px;
+}
+
+.search {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  align-items: stretch;
+  margin: 12px 0 18px;
+}
+
+.search input,
+.search button {
+  height: 42px;
+}
+
+.students-head {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 6px;
+  color: var(--muted);
+  font-size: 13px;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: #fafafa;
+}
+
+.head-right {
+  white-space: nowrap;
+}
+
+.students {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-top: 1px solid var(--border);
+}
+
+.student {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 14px 6px;
+  border-bottom: 1px solid var(--border);
+}
+
+.student-main {
+  min-width: 0;
+}
+
+.student-name {
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.student-scores {
+  display: flex;
+  gap: 10px;
+  color: var(--text);
+  font-size: 14px;
+}
+
+.student-avg.bad {
+  color: #dc2626;
+  font-weight: 700;
+}
+
+.student-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
+}
+
+.student-meta button {
+  background: #fff;
+  color: #111827;
+}
+
+.student-meta button:hover {
+  background: #f3f4f6;
+}
+
+.hl {
+  background: #fff3b0;
+  padding: 0 4px;
+  border-radius: 6px;
+}
