@@ -1,8 +1,10 @@
+import "../css/Header.css";
+
 const Header = () => {
   return <>
-  <div>
-    <h1>학생성적 관리</h1>
-  </div>
+    <header className="Header">
+      <h1>학생성적 관리</h1>
+    </header>
   </>
 }
 export default Header;

@@ -1,90 +1,73 @@
+.list {
+  margin-top: 18px;
+}
+
 .list-count {
   color: var(--muted);
-  margin: 6px 0 14px;
+  margin: 6px 0 12px;
 }
 
 .search {
   display: grid;
   grid-template-columns: 1fr auto;
   gap: 10px;
-  align-items: stretch;
-  margin: 12px 0 18px;
+  align-items: center;
+  margin: 12px 0 14px;
 }
 
-.search input,
 .search button {
-  height: 42px;
-}
-
-.students-head {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px 6px;
-  color: var(--muted);
-  font-size: 13px;
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-  background: #fafafa;
-}
-
-.head-right {
-  white-space: nowrap;
-}
-
-.students {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  border-top: 1px solid var(--border);
-}
-
-.student {
-  display: flex;
-  justify-content: space-between;
-  gap: 14px;
-  padding: 14px 6px;
-  border-bottom: 1px solid var(--border);
-}
-
-.student-main {
-  min-width: 0;
-}
-
-.student-name {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
   font-weight: 700;
-  margin-bottom: 6px;
 }
 
-.student-scores {
-  display: flex;
-  gap: 10px;
+.search button:hover {
+  opacity: 0.92;
+}
+
+.table-wrap {
+  overflow-x: auto; /* 화면이 좁으면 가로 스크롤 */
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+}
+
+.students-table {
+  width: 100%;
+  border-collapse: collapse; /* 진짜 테이블 느낌 */
+  min-width: 760px; /* 너무 찌그러지지 않게 */
+}
+
+.students-table thead th {
+  background: #f5faff;
   color: var(--text);
+  font-weight: 800;
+  font-size: 14px;
+  text-align: left;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+.students-table tbody td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line);
   font-size: 14px;
 }
 
-.student-avg.bad {
-  color: #dc2626;
-  font-weight: 700;
+.col-id { width: 60px; }
+.col-name { width: 140px; }
+.col-score { width: 90px; }
+.col-total { width: 90px; }
+.col-avg { width: 50px; }
+.col-action { width: 90px; text-align: center; }
+
+.students-table tbody td.cell-action,
+.students-table thead th.col-action {
+  text-align: center;
 }
 
-.student-meta {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  white-space: nowrap;
-}
-
-.student-meta button {
-  background: #fff;
-  color: #111827;
-}
-
-.student-meta button:hover {
-  background: #f3f4f6;
-}
-
-.hl {
-  background: #fff3b0;
-  padding: 0 4px;
-  border-radius: 6px;
+.col-action {
+  width: 120px;
+  text-align: left;
 }

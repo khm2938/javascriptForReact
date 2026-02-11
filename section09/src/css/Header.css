@@ -1,0 +1,22 @@
+.Header {
+  display: flex;
+  justify-content: center;  /* ✅ 가운데 */
+  align-items: center;
+  margin-bottom: 18px;
+
+  padding: 18px 16px;
+  border-radius: 16px;
+
+  /* ✅ 밝은 느낌 */
+  background: linear-gradient(180deg, #f5faff 0%, #ffffff 100%);
+  border: 1px solid var(--line);
+}
+
+.Header h1 {
+  margin: 0;
+  font-size: 40px;
+  letter-spacing: -0.02em;
+
+  /* ✅ 밝고 선명한 톤 */
+  color: #163a66;
+}

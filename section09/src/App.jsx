@@ -3,8 +3,6 @@ import Header from './component/Header'
 import Editor from './component/Editor';
 import List from './component/List';
 import './css/App.css';
-import "./css/Editor.css";
-import "./css/List.css";
 
 
 const mockData = [
@@ -14,9 +12,11 @@ const mockData = [
 
 function App() {
   const [students, setStudents ] = useState(mockData);
+  const [editingId, setEditingId] = useState(null);
+
   const idRef = useRef(3);
   
-
+  //학생성적 추가
   const addStudent = (name,kor,eng,mat)=>{
 
     const newStudent = {
@@ -31,17 +31,31 @@ function App() {
   }
   console.log(students);
 
+  //학생성적 삭제
   const onClickDelete = (id) => {
     setStudents(students.filter((s)=>s.id !== id)) // filter된 새로운 배열로 새로운 Students배열을 set한다
   }
+
+  //학생성적 수정
+  const onUpdateStudent = (id, updatedStudent) => {
+    setStudents((prev) => 
+      prev.map((s) => (s.id === id ? {...s, ...updatedStudent} : s))
+    );
+  };
 
   return (
     <>
       <div className='App'>
         <Header />
-        <Editor addStudent={addStudent}/>
+        <Editor addStudent={addStudent} editingId={editingId}/>
    
-        <List students={students} onClickDelete={onClickDelete}/>
+        <List 
+          students={students} 
+          onClickDelete={onClickDelete} 
+          onUpdateStudent={onUpdateStudent} 
+          editingId={editingId}
+          setEditingId={setEditingId}
+        />
       </div>
     </>
   )
