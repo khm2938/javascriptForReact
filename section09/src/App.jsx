@@ -12,12 +12,10 @@ const mockData = [
   { id: 2, name: "김철수", kor: 100, eng: 95, mat: 90 },
 ];
 
-
-
 function App() {
   const [students, setStudents ] = useState(mockData);
   const idRef = useRef(3);
-
+  
 
   const addStudent = (name,kor,eng,mat)=>{
 
@@ -36,8 +34,6 @@ function App() {
   const onClickDelete = (id) => {
     setStudents(students.filter((s)=>s.id !== id)) // filter된 새로운 배열로 새로운 Students배열을 set한다
   }
-
-
 
   return (
     <>
