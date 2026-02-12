@@ -1,0 +1,94 @@
+.row:hover {
+  background: rgba(74, 144, 226, 0.06);
+}
+
+.cell-id {
+  color: var(--muted);
+}
+
+.cell-name {
+  font-weight: 800;
+}
+
+.cell-score input[type="number"] {
+  width: 70px;
+  padding: 6px 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  outline: none;
+}
+
+.cell-score input[type="number"]:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.15);
+}
+
+.cell-avg.bad {
+  color: #b91c1c;
+  font-weight: 800;
+}
+
+.btn {
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--primary-soft);
+  color: var(--primary);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: var(--primary);
+  color: white;
+}
+
+.btn.danger {
+  background: #fff;
+  color: #b91c1c;
+  border-color: #f0c2c2;
+}
+
+.btn.danger:hover {
+  background: #fff1f1;
+  color: #b91c1c;
+}
+
+.btns {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+}
+
+.error {
+  padding: 10px 12px;
+  color: #b91c1c;
+  background: #fff1f1;
+  font-size: 13px;
+}
+
+.hl {
+  background: rgba(74, 144, 226, 0.18);
+  padding: 0 2px;
+  border-radius: 4px;
+}
+
+.cell-action {
+  text-align: left;   /* 평균쪽으로 붙이기 */
+  padding-left: 6px;  /* 평균과 간격 최소화 */
+}
+
+.action-wrap {
+  display: flex;
+  gap: 6px;   /* 기존 10px 이상이면 줄이기 */
+}
+
+.btn.primary {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+.btn.primary:hover {
+  opacity: 0.9;
+}
