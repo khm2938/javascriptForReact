@@ -31,9 +31,7 @@ function highlight(text, kw) {
       <div className="student-meta">
         <span className="student-total">총점 {total}</span>
         <span className={`student-avg ${isLow ? "bad" : ""}`}>평균 {avg}</span>
-        <button onClick={() => onClickDelete(id)} type="button">
-          삭제
-        </button>
+        <button onClick={() => onClickDelete(id)} type="button">삭제</button>
       </div>
     </li>
   );

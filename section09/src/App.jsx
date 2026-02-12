@@ -1,11 +1,10 @@
-import { useState,useRef } from 'react';
-import Header from './component/Header'
-import Editor from './component/Editor';
-import List from './component/List';
-import './css/App.css';
+import { useState, useRef } from "react";
+import Header from "./component/Header";
+import Editor from "./component/Editor";
+import List from "./component/List";
+import "./css/App.css";
 import "./css/Editor.css";
 import "./css/List.css";
-
 
 const mockData = [
   { id: 1, name: "홍길동", kor: 90, eng: 80, mat: 70 },
@@ -13,39 +12,40 @@ const mockData = [
 ];
 
 function App() {
-  const [students, setStudents ] = useState(mockData);
+  const [students, setStudents] = useState(mockData);
   const idRef = useRef(3);
-  
 
-  const addStudent = (name,kor,eng,mat)=>{
-
+  const addStudent = (name, kor, eng, mat) => {
     const newStudent = {
-      id:idRef.current++,
-      name:name,
-      kor:kor,
-      eng:eng,
-      mat:mat
-    }
+      id: idRef.current++,
+      name: name,
+      kor: kor,
+      eng: eng,
+      mat: mat,
+    };
 
-    setStudents([...students,newStudent])
-  }
+    setStudents([...students, newStudent]);
+  };
   console.log(students);
 
   const onClickDelete = (id) => {
-    setStudents(students.filter((s)=>s.id !== id)) // filter된 새로운 배열로 새로운 Students배열을 set한다
-  }
+    setStudents(students.filter((s) => s.id !== id)); // filter된 새로운 배열로 새로운 Students배열을 set한다
+  };
+
+  const onUpdateStudent = (id, updatedStudent) => {
+    console.log("update", id, updatedStudent);
+    setStudents((prev) => prev.map((s) => (s.id === id ? {...s, ...updatedStudent} : s)));
+  };
 
   return (
     <>
-      <div className='App'>
+      <div className="App">
         <Header />
-        <Editor addStudent={addStudent}/>
-   
-        <List students={students} onClickDelete={onClickDelete}/>
+        <Editor addStudent={addStudent} />
+        <List students={students} onClickDelete={onClickDelete} onUpdateStudent={onUpdateStudent} />
       </div>
     </>
-  )
-  
+  );
 }
 
-export default App
+export default App;
