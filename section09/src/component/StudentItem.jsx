@@ -223,26 +223,4 @@ function StudentItem({ id, name, kor, eng, mat, keyword,  editingId, setEditingI
   );
 }
 
-<<<<<<< HEAD
-  return (
-    <li className="student">
-      <div className="student-main">
-        <div className="student-name">{highlight(name, keyword)}</div>
-        <div className="student-scores">
-          <span>국어 {kor}</span>
-          <span>영어 {eng}</span>
-          <span>수학 {mat}</span>
-        </div>
-      </div>
-
-      <div className="student-meta">
-        <span className="student-total">총점 {total}</span>
-        <span className={`student-avg ${isLow ? "bad" : ""}`}>평균 {avg}</span>
-        <button onClick={() => onClickDelete(id)} type="button">삭제</button>
-      </div>
-    </li>
-  );
-}
-=======
->>>>>>> origin/feature/javascript
 export default StudentItem;
