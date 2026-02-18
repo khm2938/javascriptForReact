@@ -1,0 +1,21 @@
+.new-container {
+  padding: 20px;
+}
+
+.new-input,
+.new-textarea {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+}
+
+.new-btn {
+  padding: 8px 14px;
+  margin-right: 10px;
+}
+
+.new-select {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+}

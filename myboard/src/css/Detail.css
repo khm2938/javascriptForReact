@@ -1,0 +1,76 @@
+.detail-container {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.detail-meta {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 4px 10px;
+  font-size: 12px;
+  border-radius: 999px;
+}
+
+.badge.category {
+  background: #e3f2fd;
+  color: #1565c0;
+}
+
+.badge.level {
+  background: #f3e5f5;
+  color: #6a1b9a;
+}
+
+.detail-date {
+  margin-left: auto;
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.detail-title {
+  font-size: 24px;
+  margin: 10px 0 14px;
+}
+
+.detail-summary {
+  padding: 12px;
+  background: #f7f7f7;
+  border-left: 4px solid #333;
+  border-radius: 6px;
+  margin-bottom: 14px;
+  font-weight: 600;
+}
+
+.detail-content {
+  white-space: pre-wrap;
+  line-height: 1.8;
+  font-size: 15px;
+  padding: 12px 4px;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+
+.detail-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.detail-btn {
+  padding: 10px 14px;
+  border: 1px solid #ddd;
+  background: white;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.detail-btn.danger {
+  border-color: #ffcccc;
+}

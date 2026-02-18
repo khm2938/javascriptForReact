@@ -1,0 +1,20 @@
+.edit-container {
+  padding: 20px;
+}
+
+.edit-input,
+.edit-textarea {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+}
+
+.edit-textarea {
+  height: 140px;
+}
+
+.edit-btn {
+  padding: 8px 14px;
+  margin-right: 10px;
+  cursor: pointer;
+}
