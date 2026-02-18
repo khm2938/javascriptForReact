@@ -17,12 +17,12 @@ const Detail = () => {
   );
 
   const handleDelete = () => {
-    if (!ok) return;
-    
+   
     const ok = window.confirm("정말 삭제하시겠습니까?");
+    if (!ok) return;
 
-    onDelete(board.id);
-    nav("/");
+    onDelete(Number(id));
+    nav("/", { replace: true });
   };
 
   if (!board) {
@@ -47,10 +47,6 @@ const Detail = () => {
       </div>
 
       <h1 className="detail-title">{board.title}</h1>
-
-      <div className="detail-summary">
-        {board.summary}
-      </div>
 
       <div className="detail-content">
         {board.content}

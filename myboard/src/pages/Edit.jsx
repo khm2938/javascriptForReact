@@ -1,99 +1,118 @@
+import { useContext, useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useContext, useState } from "react";
 import { BoardStateContext } from "../contexts/BoardStateContext";
 import { BoardDispatchContext } from "../contexts/BoardDispatchContext";
-import "../css/Edit.css"
 
 const Edit = () => {
-  // 기존 데이터에서 board 찾기
   const { id } = useParams();
   const nav = useNavigate();
 
   const boards = useContext(BoardStateContext);
   const { onUpdate } = useContext(BoardDispatchContext);
 
-  const board = boards.find((b) => b.id === Number(id));
+  // 현재 글 찾기
+  const curBoard = useMemo(() => {
+    if (!Array.isArray(boards)) return undefined;
+    return boards.find((b) => String(b.id) === String(id));
+  }, [boards, id]);
 
-  // 기존 데이터에서 board 없을 경우
-  if (!board) {
+  // 폼 상태
+  const [form, setForm] = useState({
+    title: "",
+    category: "React",
+    level: "입문",
+    content: "",
+  });
+
+  // 글 데이터가 준비되면 폼 초기화
+  useEffect(() => {
+    if (!curBoard) return;
+
+    setForm({
+      title: curBoard.title ?? "",
+      category: curBoard.category ?? "React",
+      level: curBoard.level ?? "입문",
+      content: curBoard.content ?? "",
+    });
+  }, [curBoard]);
+
+  // 해당 글 없는 경우
+  if (boards.length > 0 && !curBoard) {
     return (
-      <div className="edit-container">
-        <h2>글을 찾을 수 없습니다.</h2>
-        <button onClick={() => nav("/")}>목록</button>
+      <div style={{ padding: 20 }}>
+        <p>존재하지 않는 글입니다. (id: {id})</p>
+        <button onClick={() => nav("/", { replace: true })}>홈으로</button>
       </div>
-    )
+    );
   }
-  //입력값 state
-  const [title, setTitle] = useState(board.title);
-  const [content, setContent] = useState(board.content);
-  const [category, setCategory] = useState(board.category);
-  const [level, setLevel] = useState(board.level);
-  const [summary, setSummary] = useState(board.summary);
 
-  //저장 버튼 핸들러
-  const handleSave = () => {
-    if (title.trim() === "") return alert("제목을 입력하세요");
-    if (content.trim() === "") return alert("내용을 입력하세요");
-
-    onUpdate(board.id, { title, content, category, level, summary });
-    nav(`/detail/${board.id}`);
+  // 입력 변경
+  const onChange = (e) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  return <>
-    <div className="edit-container">
-      <h1>글 수정</h1>
+  // 저장
+  const onSubmit = (e) => {
+    e.preventDefault();
 
-      <select
-        className="new-select"
-        value={category}
-        onChange={(e) => setCategory(e.target.value)}
+    onUpdate(Number(id), {
+      title: form.title,
+      content: form.content,
+      category: form.category,
+      level: form.level,
+    });
+
+    nav(`/detail/${id}`, { replace: true });
+  };
+
+  return (
+    <div style={{ padding: 20, maxWidth: 900, margin: "0 auto" }}>
+      <h2>글 수정</h2>
+
+      <form
+        onSubmit={onSubmit}
+        style={{ display: "flex", flexDirection: "column", gap: 12 }}
       >
-        <option value="Java">자바</option>
-        <option value="React">리액트</option>
-        <option value="Spring">스프링부트</option>
-        <option value="DB">DB</option>
-        <option value="CS">CS</option>
-        <option value="ETC">기타</option>
-      </select>
+        <input
+          name="title"
+          value={form.title}
+          onChange={onChange}
+          placeholder="제목"
+        />
 
-      <select
-        className="new-select"
-        value={level}
-        onChange={(e) => setLevel(e.target.value)}
-      >
-        <option value="입문">입문</option>
-        <option value="초급">초급</option>
-        <option value="중급">중급</option>
-      </select>
+        <select name="category" value={form.category} onChange={onChange}>
+          <option value="React">React</option>
+          <option value="JavaScript">JavaScript</option>
+          <option value="Spring">Spring</option>
+          <option value="DB">DB</option>
+          <option value="CS">CS</option>
+          <option value="ETC">ETC</option>
+        </select>
 
-      <input
-        className="new-input"
-        type="text"
-        placeholder="제목 입력"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-      />
+        <select name="level" value={form.level} onChange={onChange}>
+          <option value="입문">입문</option>
+          <option value="초급">초급</option>
+          <option value="중급">중급</option>
+        </select>
 
-      <input
-        className="new-input"
-        type="text"
-        placeholder="한 줄 요약"
-        value={summary}
-        onChange={(e) => setSummary(e.target.value)}
-      />
+        <textarea
+          name="content"
+          value={form.content}
+          onChange={onChange}
+          placeholder="내용"
+          rows={10}
+        />
 
-      <textarea
-        className="edit-textarea"
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
-        placeholder="내용"
-      />
-
-      <div>
-        <button className="edit-btn" onClick={handleSave}>저장</button>
-        <button className="edit-btn" onClick={() => nav(-1)}>취소</button>
-      </div>
+        <div style={{ display: "flex", gap: 10 }}>
+          <button type="button" onClick={() => nav(-1)}>
+            취소
+          </button>
+          <button type="submit">저장</button>
+        </div>
+      </form>
     </div>
-  </>
-}
+  );
+};
+
 export default Edit;

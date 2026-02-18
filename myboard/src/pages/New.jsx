@@ -1,92 +1,98 @@
-import "../css/New.css";
-import { useState, useContext } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "../css/New.css";
 import { BoardDispatchContext } from "../contexts/BoardDispatchContext";
 
 const New = () => {
   const nav = useNavigate();
   const { onCreate } = useContext(BoardDispatchContext);
 
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [category, setCategory] = useState("React");
-  const [level, setLevel] = useState("입문");
-  const [summary, setSummary] = useState("");
+  const [form, setForm] = useState({
+    category: "React",
+    level: "입문",
+    title: "",
+    content: "",
+  });
 
-  //등록 로직
-  const handleSubmit = () => {
-    if (title.trim() === "") {
-      alert("제목을 입력하세요.");
-      return;
-    }
-    if (content.trim() === "") {
-      alert("내용을 입력하세요.");
-      return;
-    }
-    onCreate({ title, content, category, level, summary });
-    nav("/");
-  }
+  const onChange = (e) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+  };
 
-  return <>
+  const onSubmit = (e) => {
+    e.preventDefault();
+
+    onCreate({
+      title: form.title,
+      content: form.content,
+      category: form.category,
+      level: form.level,
+    });
+
+    nav("/", { replace: true });
+  };
+
+  return (
     <div className="new-container">
-      <h1>새글 작성</h1>
-    
-    
-    <select
-      className="new-select"
-      value={category}
-      onChange={(e) => setCategory(e.target.value)}
-    >
-      <option value="Java">자바</option>
-      <option value="React">리액트</option>
-      <option value="Spring">스프링부트</option>
-      <option value="DB">DB</option>
-      <option value="CS">CS</option>
-      <option value="ETC">기타</option>
-    </select>
+      <div className="new-inner">
+        <div className="new-header">
+          <h1 className="new-title">새글 작성</h1>
+        </div>
 
-    <select
-      className="new-select"
-      value={level}
-      onChange={(e) => setLevel(e.target.value)}
-    >
-      <option value="입문">입문</option>
-      <option value="초급">초급</option>
-      <option value="중급">중급</option>
-    </select>
+        <div className="new-card">
+          <form className="new-form" onSubmit={onSubmit}>
+            <select
+              className="new-select"
+              name="category"
+              value={form.category}
+              onChange={onChange}
+            >
+              <option value="React">React</option>
+              <option value="JavaScript">JavaScript</option>
+              <option value="Spring">Spring</option>
+              <option value="DB">DB</option>
+              <option value="CS">CS</option>
+              <option value="ETC">ETC</option>
+            </select>
 
-    <input
-      className="new-input"
-      type="text"
-      placeholder="제목 입력"
-      value={title}
-      onChange={(e) => setTitle(e.target.value)}
-    />
+            <select
+              className="new-select"
+              name="level"
+              value={form.level}
+              onChange={onChange}
+            >
+              <option value="입문">입문</option>
+              <option value="초급">초급</option>
+              <option value="중급">중급</option>
+            </select>
 
-    <input
-      className="new-input"
-      type="text"
-      placeholder="한 줄 요약"
-      value={summary}
-      onChange={(e) => setSummary(e.target.value)}
-    />
+            <input
+              className="new-input"
+              name="title"
+              value={form.title}
+              onChange={onChange}
+              placeholder="제목 입력"
+            />
 
-    <textarea
-      className="new-textarea"
-      placeholder="내용 입력"
-      value={content}
-      onChange={(e) => setContent(e.target.value)}
-    />
+            <textarea
+              className="new-textarea"
+              name="content"
+              value={form.content}
+              onChange={onChange}
+              placeholder="내용 입력"
+            />
 
-    <div>
-      <button className="new-btn" onClick={handleSubmit}>
-        등록
-      </button>
-      <button className="new-btn" onClick={() => nav(-1)}>
-        취소
-      </button>
+            <div className="new-actions">
+              <button type="submit">등록</button>
+              <button type="button" onClick={() => nav(-1)}>
+                취소
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
-    </div>
-  </>
-}
+  );
+};
+
 export default New;

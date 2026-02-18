@@ -1,21 +1,97 @@
+
 .new-container {
-  padding: 20px;
+  width: 100%;
+  min-height: 100vh;
+  padding: 28px 16px;
 }
 
+.new-inner {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* 타이틀 */
+.new-header {
+  display: flex;
+  justify-content: flex-start; 
+  margin-bottom: 14px;
+}
+
+.new-title {
+  margin: 0;
+  font-size: 34px;
+  letter-spacing: -0.3px;
+}
+
+/* 폼 카드 */
+.new-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px;
+}
+
+/* 폼 레이아웃 */
+.new-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* select/input 공통 */
+.new-select,
 .new-input,
 .new-textarea {
   width: 100%;
-  padding: 8px;
-  margin-bottom: 10px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 14px;
+  background: #fff;
+  outline: none;
 }
 
-.new-btn {
-  padding: 8px 14px;
-  margin-right: 10px;
+.new-select,
+.new-input {
+  height: 42px;
 }
 
-.new-select {
-  width: 100%;
-  padding: 8px;
-  margin-bottom: 10px;
+/* textarea */
+.new-textarea {
+  min-height: 260px;    
+  line-height: 1.6;
+  resize: vertical;   
+}
+
+/* 버튼 영역 */
+.new-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-start;
+  margin-top: 6px;
+}
+
+.new-actions button {
+  height: 42px;
+  padding: 0 14px;
+  border-radius: 10px;
+}
+
+@media (max-width: 720px) {
+  .new-container {
+    padding: 18px 16px;
+  }
+
+  .new-actions {
+    flex-direction: column;
+  }
+
+  .new-actions button {
+    width: 100%;
+  }
+
+  .new-textarea {
+    min-height: 220px;
+  }
 }

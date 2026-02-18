@@ -18,3 +18,44 @@
   margin-right: 10px;
   cursor: pointer;
 }
+
+.form-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.form-title {
+  margin: 0 0 14px;
+  font-size: 22px;
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.form-textarea {
+  min-height: 160px;
+  resize: vertical;
+}
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.form-btn {
+  flex: 1;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: white;
+  cursor: pointer;
+}
