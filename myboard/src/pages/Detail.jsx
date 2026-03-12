@@ -42,7 +42,7 @@ const Detail = () => {
         <span className="badge level">{board.level}</span>
 
         <span className="detail-date">
-          {new Date(board.createdAt).toLocaleDateString()}
+          {new Date(board.createdAt).toLocaleDateString("ko-KR")}
         </span>
       </div>
 

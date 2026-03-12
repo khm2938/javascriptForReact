@@ -1,4 +1,5 @@
-import { useContext, useState, useMemo } from "react";
+import { useContext, useState, useMemo, useEffect } from "react";
+import { login, logout } from "../api/authApi";
 import { BoardStateContext } from "../contexts/BoardStateContext";
 import { useNavigate } from "react-router-dom";
 import "../css/Home.css";
@@ -13,6 +14,43 @@ const Home = () => {
   const [search, setSearch] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("ALL");
   const [sortOrder, setSortOrder] = useState("NEW");
+  // ===== 로그인 UI 상태 =====
+  const [loginForm, setLoginForm] = useState({
+    username: "member",
+    password: "1234",
+  });
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [loginMsg, setLoginMsg] = useState("");
+
+  const onChangeLoginForm = (e) => {
+    const { name, value } = e.target;
+    setLoginForm((prev) => ({ ...prev, [name]: value }));
+  };
+  const onSubmitLogin = async (e) => {
+    e.preventDefault();
+    setLoginMsg("");
+    try {
+      await login(loginForm.username, loginForm.password);
+      setIsLoggedIn(true);
+      setLoginMsg("로그인 성공");
+    } catch (err) {
+      setIsLoggedIn(false);
+      setLoginMsg("로그인 실패 (아이디/비번 확인)");
+      console.log(err);
+    }
+  };
+
+  const onClickLogout = async () => {
+    setLoginMsg("");
+    try {
+      await logout();
+      setIsLoggedIn(false);
+      setLoginMsg("로그아웃 완료");
+    } catch (err) {
+      console.log(err);
+      setLoginMsg("로그아웃 실패");
+    }
+  };
 
   // 카테고리 필터
   const filteredBoards = useMemo(() => {
@@ -38,8 +76,14 @@ const Home = () => {
   // 정렬(최신/오래된)
   const sortedBoards = useMemo(() => {
     return [...searchedBoards].sort((a, b) => {
-      const aTime = Number(a.createdAt ?? a.createdDate ?? 0);
-      const bTime = Number(b.createdAt ?? b.createdDate ?? 0);
+      const aTime = a.createdAt
+        ? new Date(a.createdAt).getTime()
+        : Number(a.createdDate ?? 0);
+
+      const bTime = b.createdAt
+        ? new Date(b.createdAt).getTime()
+        : Number(b.createdDate ?? 0);
+
       return sortOrder === "NEW" ? bTime - aTime : aTime - bTime;
     });
   }, [searchedBoards, sortOrder]);
@@ -93,7 +137,16 @@ const Home = () => {
             />
 
             <div className="home-write">
-              <Button text="글 작성" onClick={() => nav("/new")} />
+              <Button
+                text="글 작성"
+                onClick={() => {
+                  if (!isLoggedIn) {
+                    alert("로그인이 필요합니다.");
+                    return;
+                  }
+                  nav("/new");
+                }}
+              />
             </div>
           </div>
         </div>
@@ -135,6 +188,73 @@ const Home = () => {
                 <br />
                 현재 결과: {sortedBoards.length}개
               </div>
+            </div>
+            {/* 로그인 카드(요약 아래) */}
+            <div className="aside-card" style={{ marginTop: 16 }}>
+              <div className="aside-title">로그인</div>
+
+              {!isLoggedIn ? (
+                <form onSubmit={onSubmitLogin}>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                    <input
+                      name="username"
+                      value={loginForm.username}
+                      onChange={onChangeLoginForm}
+                      placeholder="아이디"
+                      style={{ padding: "10px", borderRadius: 10, border: "1px solid #ddd" }}
+                    />
+                    <input
+                      name="password"
+                      type="password"
+                      value={loginForm.password}
+                      onChange={onChangeLoginForm}
+                      placeholder="비밀번호"
+                      style={{ padding: "10px", borderRadius: 10, border: "1px solid #ddd" }}
+                    />
+
+                    <button
+                      type="submit"
+                      style={{
+                        padding: "10px",
+                        borderRadius: 10,
+                        border: "none",
+                        cursor: "pointer",
+                        fontWeight: 700,
+                      }}
+                    >
+                      로그인
+                    </button>
+
+                    {loginMsg && (
+                      <div style={{ fontSize: 13, opacity: 0.8 }}>{loginMsg}</div>
+                    )}
+                  </div>
+                </form>
+              ) : (
+                <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                  <div style={{ fontSize: 14 }}>
+                    <b>{loginForm.username}</b> 님 로그인 상태
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={onClickLogout}
+                    style={{
+                      padding: "10px",
+                      borderRadius: 10,
+                      border: "none",
+                      cursor: "pointer",
+                      fontWeight: 700,
+                    }}
+                  >
+                    로그아웃
+                  </button>
+
+                  {loginMsg && (
+                    <div style={{ fontSize: 13, opacity: 0.8 }}>{loginMsg}</div>
+                  )}
+                </div>
+              )}
             </div>
           </aside>
         </div>

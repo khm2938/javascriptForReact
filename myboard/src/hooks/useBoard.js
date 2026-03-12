@@ -1,3 +1,38 @@
+import { useEffect, useState } from "react";
+import { getBoards, createBoard, deleteBoard, updateBoard } from "../api/boardApi";
+
+export function useBoard() {
+  const [state, setState] = useState([]);
+
+  const fetchBoards = async () => {
+    const res = await getBoards();
+    setState(res.data);
+  };
+
+  useEffect(() => {
+    fetchBoards();
+  }, []);
+
+  const onCreate = async ({ title, content, category, level }) => {
+    await createBoard({ title, content, category, level });
+    await fetchBoards();
+  };
+
+  const onDelete = async (id) => {
+    await deleteBoard(id);
+    await fetchBoards();
+  };
+
+  const onUpdate = async (id, { title, content, category, level }) => {
+    await updateBoard(id, { title, content, category, level });
+    await fetchBoards();
+  };
+
+  return { state, onCreate, onDelete, onUpdate, fetchBoards };
+}
+
+
+/*
 import { useReducer, useRef } from "react";
 import { boardReducer } from "../reducer/boardReducer";
 import { makeSummary } from "../utils/makeSummary";
@@ -93,3 +128,4 @@ export function useBoard() {
 
   return { state, onCreate, onDelete, onUpdate };
 }
+*/
