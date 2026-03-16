@@ -1,148 +1,152 @@
-import { useEffect, useState } from "react";
-import { getOne, putOne, deleteOne } from "../../api/todoApi"; // 필요한 API 함수 가정
-import useCustomMove from "../../hooks/useCustomMove";
-import InfoModal from "../common/InfoModal";
+import { useEffect, useState, useRef } from "react";
+import { getOne, putOne, deleteOne } from "../../api/productsApi";
+import FetchingModal from "../common/FetchingModal";
+import { API_SERVER_HOST } from "../../api/todoApi";
 import "./ModifyComponent.css";
 
-//초기값
 const initState = {
-  tno: 0,
-  title: "",
-  writer: "",
-  dueDate: "",
-  complete: false,
+  pno: 0,
+  pname: "",
+  pdesc: "",
+  price: 0,
+  delFlag: false,
+  uploadFileNames: [],
 };
+const host = API_SERVER_HOST;
 
-const ModifyComponent = ({ tno, moveToList, moveToRead }) => {
-  const [todo, setTodo] = useState({ ...initState });
-  const [infoModalOn, setInfoModalOn] = useState(false);
-  const [result, setResult] = useState(null); //모달 창을 위한 상태
+const ModifyComponent = ({ pno, moveToList, moveToRead }) => {
+  const [product, setProduct] = useState({ ...initState });
+  const [fetching, setFetching] = useState(false);
+  const uploadRef = useRef();
 
-  //수정컴포넌트가 마운트될때 해당tno를 api서버로부터 가져온다
   useEffect(() => {
-    getOne(tno).then((data) => setTodo(data));
-  }, [tno]);
-
-  //데이터변경이 될때 todo 수정
-  const handleChangeTodo = (e) => {
-    setTodo({
-      ...todo, //기존 데이터
-      [e.target.name]: e.target.value, // 수정 데이터
+    const timer = setTimeout(() => setFetching(true), 0);
+    getOne(pno).then((data) => {
+      setProduct(data);
+      setFetching(false);
+    });
+    return () => clearTimeout(timer);
+  }, [pno]);
+  const handleChangeProduct = (e) => {
+    setProduct({
+      ...product,
+      [e.target.name]: e.target.value,
     });
   };
 
-  // select문에서 처리방식
-  const handleChangeTodoComplete = (e) => {
-    const value = e.target.value;
-    setTodo({
-      ...todo,
-      complete: value === "Y", // 불리언 값으로 직접 저장
-    });
+  const deleteOldImages = (imageName) => {
+    const resultNames = product.uploadFileNames.filter(
+      (name) => name !== imageName,
+    );
+    setProduct({ ...product, uploadFileNames: resultNames });
   };
 
   const handleClickModify = () => {
-    // 실제 수정 로직 호출 (예시)
-    putOne(todo).then((data) => {
-      setResult(data.RESULT);
-      setInfoModalOn(true);
-      moveToRead(tno);
-    });
+    /* putOne 로직 구현 */
   };
-
   const handleClickDelete = () => {
-    // 실제 삭제 로직 호출 (예시)
-    deleteOne(tno).then((data) => {
-      setResult(data.RESULT);
-      setInfoModalOn(true);
-      moveToList();
-    });
+    /* deleteOne 로직 구현 */
   };
-
-    //모달창을 close 
-  const closeModal = () => { 
-    setInfoModalOn(false); 
-    moveToList(); 
-  }; 
-
 
   return (
     <div className="modify-container">
-      <InfoModal
-        show={infoModalOn}
-        title={`RESULT`}
-        content={`${result}`}
-        callbackFn={closeModal}
-      />
-      <div className="form-group">
-        <label className="form-label">TNO</label>
-        <input className="form-control" value={tno} type="text" disabled />
+      {fetching && <FetchingModal />}
+
+      <div className="modify-form">
+        <div className="modify-form-group">
+          <label className="modify-label">PNAME</label>
+          <input
+            className="modify-control"
+            name="pname"
+            type="text"
+            value={product.pname}
+            onChange={handleChangeProduct}
+          />
+        </div>
+
+        <div className="modify-form-group">
+          <label className="modify-label">PRICE</label>
+          <input
+            className="modify-control"
+            name="price"
+            type="number"
+            value={product.price}
+            onChange={handleChangeProduct}
+          />
+        </div>
+
+        <div className="modify-form-group">
+          <label className="modify-label">DESCRIPTION</label>
+          <textarea
+            className="modify-control"
+            name="pdesc"
+            rows={5}
+            value={product.pdesc}
+            onChange={handleChangeProduct}
+          />
+        </div>
+
+        <div className="modify-form-group">
+          <label className="modify-label">DELETE (Flag)</label>
+          <select
+            className="modify-select"
+            name="delFlag"
+            value={product.delFlag}
+            onChange={handleChangeProduct}
+          >
+            <option value={false}>사용 (Keep)</option>
+            <option value={true}>삭제 (Delete)</option>
+          </select>
+        </div>
+
+        <div className="modify-form-group">
+          <label className="modify-label">New Files</label>
+          <input
+            className="modify-control"
+            ref={uploadRef}
+            type="file"
+            multiple={true}
+          />
+        </div>
       </div>
 
-      <div className="form-group">
-        <label className="form-label">WRITER</label>
-        <input
-          className="form-control"
-          value={todo.writer}
-          type="text"
-          disabled
-        />
+      {/* 기존 이미지 목록 */}
+      <div className="modify-image-grid">
+        {product.uploadFileNames.map((imgFile, i) => (
+          <div className="modify-image-card" key={i}>
+            <button
+              className="btn-img-delete"
+              type="button"
+              onClick={() => deleteOldImages(imgFile)}
+            >
+              DELETE
+            </button>
+            <img alt="product" src={`${host}/api/products/view/s_${imgFile}`} />
+          </div>
+        ))}
       </div>
 
-      <div className="form-group">
-        <label className="form-label">TITLE</label>
-        <input
-          className="form-control"
-          type="text"
-          name="title"
-          value={todo.title}
-          onChange={handleChangeTodo}
-        />
-      </div>
-
-      <div className="form-group">
-        <label className="form-label">DATE</label>
-        <input
-          className="form-control"
-          name="dueDate"
-          value={todo.dueDate}
-          type="date"
-          onChange={handleChangeTodo}
-        />
-      </div>
-
-      <div className="form-group">
-        <label className="form-label">COMPLETE</label>
-        <select
-          className="form-select"
-          name="status"
-          value={todo.complete ? "Y" : "N"}
-          onChange={handleChangeTodoComplete}
-        >
-          <option value="Y">Completed</option>
-          <option value="N">Not Yet</option>
-        </select>
-      </div>
-      <div className="button-group">
+      <div className="modify-button-group">
         <button
-          className="btn btn-modify"
-          type="button"
-          onClick={handleClickModify}
-        >
-          수정하기
-        </button>
-        <button
-          className="btn btn-delete"
+          className="btn-modify-action btn-del"
           type="button"
           onClick={handleClickDelete}
         >
-          삭제하기
+          DELETE
         </button>
         <button
-          className="btn btn-list"
+          className="btn-modify-action btn-mod"
           type="button"
-          onClick={() => moveToList()}
+          onClick={handleClickModify}
         >
-          목록가기
+          MODIFY
+        </button>
+        <button
+          className="btn-modify-action btn-list"
+          type="button"
+          onClick={moveToList}
+        >
+          LIST
         </button>
       </div>
     </div>
