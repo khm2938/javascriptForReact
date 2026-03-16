@@ -10,7 +10,7 @@ const Login = lazy(() => import("../pages/LoginPage"));
 const List = lazy(() => import("../pages/todo/ListPage"));
 const Read = lazy(() => import("../pages/todo/ReadPage"));
 const Modify = lazy(() => import("../pages/todo/ModifyPage"));
-const Add = lazy(() => import("../components/todo/AddPage"));
+const Add = lazy(() => import("../pages/todo/AddPage"));
 
 
 const Root = createBrowserRouter([
