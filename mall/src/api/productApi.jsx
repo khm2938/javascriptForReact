@@ -29,14 +29,15 @@ const header = { headers: { 'Content-Type': 'multipart/form-data' } };
   return res.data;
 };
 
+//http://localhost:8080/api/products/{pno} method=put
+export const putOne = async (pno, product) => {
+  const header = { headers: { "Content-Type": "multipart/form-data" } };
+  const res = await axios.put(`${prefix}/${pno}`, product, header);
+  return res.data;
+};
+
 //http://localhost:8080/api/products/{pno} method=delete
 export const deleteOne = async (pno) => {
   const res = await axios.delete(`${prefix}/${pno}`);
   return res.data;
-}
-
-//http://localhost:8080/api/products/{pno} method=put
-export const putOne = async (product) => {
-  const res = await axios.put(`${prefix}/${product.pno}`, product)
-  return res.data
 }

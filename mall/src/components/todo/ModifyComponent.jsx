@@ -1,7 +1,8 @@
 import { useEffect, useState, useRef } from "react";
+import { API_SERVER_HOST } from "../../api/todoApi";
 import { getOne, putOne, deleteOne } from "../../api/productsApi";
 import FetchingModal from "../common/FetchingModal";
-import { API_SERVER_HOST } from "../../api/todoApi";
+import useCustomMove from "../../hooks/useCustomMove";
 import "./ModifyComponent.css";
 
 const initState = {
@@ -17,8 +18,12 @@ const host = API_SERVER_HOST;
 const ModifyComponent = ({ pno, moveToList, moveToRead }) => {
   const [product, setProduct] = useState({ ...initState });
   const [fetching, setFetching] = useState(false);
+  const [moveToProductRead, moveToProductList] = useCustomMove();
   const uploadRef = useRef();
+  const [result, setResult] = useState(null); 
+  const [infoModalOn, setInfoModalOn] = useState(false); 
 
+   
   useEffect(() => {
     const timer = setTimeout(() => setFetching(true), 0);
     getOne(pno).then((data) => {
@@ -34,23 +39,62 @@ const ModifyComponent = ({ pno, moveToList, moveToRead }) => {
     });
   };
 
+  //기존 이미지 삭제 버튼 클릭 시 해당 이미지 이름을 uploadFileNames 배열에서 제거하는 함수
   const deleteOldImages = (imageName) => {
+    //삭제할 이미지 이름을 제외한 나머지 이미지 이름들로 새로운 배열 생성
     const resultNames = product.uploadFileNames.filter(
       (name) => name !== imageName,
     );
     setProduct({ ...product, uploadFileNames: resultNames });
   };
 
-  const handleClickModify = () => {
-    /* putOne 로직 구현 */
+   const handleClickModify = () => { 
+    const files = uploadRef.current.files; //업로드할 파일들
+    const formData = new FormData(); //폼데이터 객체 생성
+    for (let i = 0; i < files.length; i++) { 
+      formData.append("files", files[i]); 
+    } 
+    //other data 
+    formData.append("pname", product.pname); 
+    formData.append("pdesc", product.pdesc); 
+    formData.append("price", product.price); 
+    formData.append("delFlag", product.delFlag); 
+ 
+    for (let i = 0; i < product.uploadFileNames.length; i++) { 
+      formData.append("uploadFileNames", product.uploadFileNames[i]); 
+    } 
+    setFetching(true); 
+    //수정 처리 
+    putOne(pno, formData).then((data) => { 
+      setResult("Modified"); 
+      setInfoModalOn(true);
+      setFetching(false); 
+    }); 
   };
+
   const handleClickDelete = () => {
     /* deleteOne 로직 구현 */
   };
 
+  const closeModal = () => { 
+    if (result === "Modified") { 
+      moveToProductRead(pno); // 조회 화면으로 이동 
+    } else if (result === "Deleted") { 
+      moveToProductList({ page: 1 }); 
+    } 
+    setResult(null); 
+  }; 
+
   return (
     <div className="modify-container">
       {fetching && <FetchingModal />}
+
+       <InfoModal 
+        show={infoModalOn} 
+        title={`RESULT`} 
+        content={`${result}`} 
+        callbackFn={closeModal} 
+      />
 
       <div className="modify-form">
         <div className="modify-form-group">
@@ -144,7 +188,7 @@ const ModifyComponent = ({ pno, moveToList, moveToRead }) => {
         <button
           className="btn-modify-action btn-list"
           type="button"
-          onClick={moveToList}
+          onClick={moveToProductList}
         >
           LIST
         </button>
