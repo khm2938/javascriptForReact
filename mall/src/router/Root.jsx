@@ -6,7 +6,7 @@ import Loading from "../pages/Loading";
 // ***** 공통 *****
 const Main = lazy(() => import("../pages/MainPage"));
 const About = lazy(() => import("../pages/AboutPage"));
-const Login = lazy(() => import("../pages/LoginPage"));
+const Login = lazy(() => import("../pages/member/LoginPage"));
 // ***** todo *****
 const List = lazy(() => import("../pages/todo/ListPage"));
 const Read = lazy(() => import("../pages/todo/ReadPage"));
@@ -17,6 +17,10 @@ const ProductListPage = lazy(() => import('../pages/product/ListPage'));
 const ProductReadPage = lazy(() => import('../pages/product/ReadPage')); 
 const ProductAddPage = lazy(() => import('../pages/product/AddPage'));  
 const ProductModifyPage = lazy(() => import('../pages/product/ModifyPage')); 
+// ***** member *****
+const LoginPage = lazy(() => import('../pages/member/LoginPage'));
+const LogoutPage = lazy(() => import('../pages/member/LogoutPage'));
+
 // ***** 공통 *****
 const Root = createBrowserRouter([
   {
@@ -106,6 +110,23 @@ const Root = createBrowserRouter([
     element: (
       <Suspense fallback={<Loading />}>
         <ProductModifyPage />
+      </Suspense>
+    ),
+  },
+  // ***** member *****
+  {
+    path: "/member/login",
+    element: (
+      <Suspense fallback={<Loading />}>
+        <LoginPage />
+      </Suspense>
+    ),
+  },
+  {
+    path: "/member/logout",
+    element: (
+      <Suspense fallback={<Loading />}>
+        <LogoutPage />
       </Suspense>
     ),
   },
