@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getList } from "../../api/todoApi";
 import useCustomMove from "../../hooks/useCustomMove";
 import PageComponent from "../common/PageComponent";
+import useCustomLogin from "../../hooks/useCustomLogin"; 
 import "./ListComponent.css"
 
 //초기값
@@ -21,14 +22,16 @@ const initState = {
 const ListComponent = () => {
   const { page, size, moveToList, moveToRead, refresh } = useCustomMove(); 
   const [serverData, setServerData] = useState(initState);
-  
+  const { exceptionHandle } = useCustomLogin(); 
   
   useEffect(() => {
     getList({ page, size }).then((data) => {
       console.log(data);
       setServerData(data);
+    }).catch((err) => {
+      exceptionHandle(err);
     });
-  }, [page, size, refresh]);
+  }, [page, size, refresh, exceptionHandle]);
 
    return ( 
     <div className="list-container"> 

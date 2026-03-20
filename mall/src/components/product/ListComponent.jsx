@@ -4,6 +4,7 @@ import useCustomMove from "../../hooks/useCustomMove";
 import FetchingModal from "../common/FetchingModal";
 import { API_SERVER_HOST } from "../../api/todoApi";
 import PageComponent from "../common/PageComponent"; 
+import useCustomLogin from "../../hooks/useCustomLogin";
 import "./ListComponent.css"; 
 
 const host = API_SERVER_HOST;
@@ -24,6 +25,7 @@ const ListComponent = () => {
   const { page, size, moveToProductList, moveToProductRead, refresh } = useCustomMove();
   const [serverData, setServerData] = useState(initState);
   const [fetching, setFetching] = useState(false);
+  const { exceptionHandle } = useCustomLogin();
 
   useEffect(() => {
     // 동기적 상태 변화로 인한 렌더링 충돌 방지
@@ -36,11 +38,11 @@ const ListComponent = () => {
       })
       .catch((err) => {
         setFetching(false);
-        // exceptionHandle(err) 호출이 필요하다면 여기에 추가
+        exceptionHandle(err); 
       });
 
     return () => clearTimeout(timer);
-  }, [page, size, refresh]);
+  }, [page, size, refresh, exceptionHandle]);
 
   return (
     <div className="product-list-container">

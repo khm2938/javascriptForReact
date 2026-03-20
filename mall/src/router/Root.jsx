@@ -13,13 +13,15 @@ const Read = lazy(() => import("../pages/todo/ReadPage"));
 const Add = lazy(() => import("../pages/todo/AddPage"));
 const Modify = lazy(() => import("../pages/todo/ModifyPage"));
 // ***** product *****
-const ProductListPage = lazy(() => import('../pages/product/ListPage')); 
-const ProductReadPage = lazy(() => import('../pages/product/ReadPage')); 
-const ProductAddPage = lazy(() => import('../pages/product/AddPage'));  
-const ProductModifyPage = lazy(() => import('../pages/product/ModifyPage')); 
+const ProductListPage = lazy(() => import("../pages/product/ListPage"));
+const ProductReadPage = lazy(() => import("../pages/product/ReadPage"));
+const ProductAddPage = lazy(() => import("../pages/product/AddPage"));
+const ProductModifyPage = lazy(() => import("../pages/product/ModifyPage"));
 // ***** member *****
-const LoginPage = lazy(() => import('../pages/member/LoginPage'));
-const LogoutPage = lazy(() => import('../pages/member/LogoutPage'));
+const LoginPage = lazy(() => import("../pages/member/LoginPage"));
+const LogoutPage = lazy(() => import("../pages/member/LogoutPage"));
+const KakaoRedirect = lazy(() => import("../pages/member/KakaoRedirectPage"));
+const MemberModify = lazy(() => import('../pages/member/ModifyPage'));
 
 // ***** 공통 *****
 const Root = createBrowserRouter([
@@ -130,5 +132,22 @@ const Root = createBrowserRouter([
       </Suspense>
     ),
   },
+  {
+    path: "/member/kakao",
+    element: (
+      <Suspense fallback={<Loading />}>
+        <KakaoRedirect />
+      </Suspense>
+    ),
+  },
+  {
+    path: "/member/modify",
+    element: (
+      <Suspense fallback={Loading}>
+        <MemberModify />
+      </Suspense>
+    ),
+  },
 ]);
+
 export default Root;

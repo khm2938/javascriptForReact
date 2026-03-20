@@ -1,10 +1,19 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { loginPost } from "../api/memberApi";
-import { setCookie } from "../util/cookieUtil";
+import { getCookie, removeCookie, setCookie } from "../util/cookieUtil";
 
 const initState = {
   email: "",
 };
+
+const loadMemberCookie = () => {
+  const memberInfo = getCookie("member");
+  if (memberInfo && memberInfo.nickname) {
+    memberInfo.nickname = decodeURIComponent(memberInfo.nickname);
+  }
+  return memberInfo ? memberInfo : initState;
+};
+
 // 로그인 요청을 보내는 비동기 액션 생성
 // createAsyncThunk는 비동기 작업을 처리하기 위한 유틸리티 함수입니다. 첫 번째 인자는 액션 타입의 접두사이고, 두 번째 인자는 비동기 작업을 수행하는 함수입니다. 이 함수는 Promise를 반환해야 합니다. createAsyncThunk는 세 가지 액션 타입을 자동으로 생성합니다: pending, fulfilled, rejected. 이 액션들은 비동기 작업의 상태를 나타냅니다. 예를 들어, loginPostAsync.pending은 로그인 요청이 시작되었음을 나타내고, loginPostAsync.fulfilled는 로그인 요청이 성공적으로 완료되었음을 나타내며, loginPostAsync.rejected는 로그인 요청이 실패했음을 나타냅니다.
 export const loginPostAsync = createAsyncThunk("loginPostAsync", (param) => {
@@ -13,16 +22,20 @@ export const loginPostAsync = createAsyncThunk("loginPostAsync", (param) => {
 
 const loginSlice = createSlice({
   name: "loginSlice",
-  initialState: initState,
+  // 초기 상태를 설정하는 부분입니다. loadMemberCookie 함수를 호출하여 쿠키에서 로그인 정보를 불러오거나, 쿠키가 없으면 initState를 사용합니다. 이렇게 하면 사용자가 페이지를 새로고침해도 로그인 상태가 유지됩니다.
+  initialState: loadMemberCookie() || initState,
   reducers: {
     login: (state, action) => {
-      console.log("로그인 ");
       //{email, pw 로 구성 }
       const data = action.payload;
+      console.log("로그인 ");
+      setCookie("member", JSON.stringify(data), 1); // 1일 동안 쿠키 유지 
       //새로운 상태
       return { email: data.email };
     },
     logout: (state, action) => {
+      console.log("로그아웃 ");
+      removeCookie("member");
       return { ...initState };
     },
   },
